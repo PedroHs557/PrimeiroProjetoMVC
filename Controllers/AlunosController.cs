@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PrimeiroProjetoMVC.Models;
+using PrimeiroProjetoMVC.ViewModels;
 
 namespace PrimeiroProjetoMVC.Controllers
 {
@@ -59,6 +60,23 @@ namespace PrimeiroProjetoMVC.Controllers
 
         }
 
-        
+        [HttpGet]
+        public IActionResult Buscar()
+        {
+            return View(new BuscaAlunoViewModel());
+        }
+
+        [HttpPost]
+        public IActionResult Buscar(BuscaAlunoViewModel vm)
+        {
+            vm.Resultados = _alunos;
+
+            if (!string.IsNullOrEmpty(vm.TermoBusca))
+            {
+                vm.Resultados = _alunos.Where(a => a.Nome.Contains(vm.TermoBusca, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+
+            return View(vm);
+        }
     }
 }

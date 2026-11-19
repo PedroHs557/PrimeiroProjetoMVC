@@ -1,0 +1,41 @@
+@using PrimeiroProjetoMVC.ViewModels
+
+@model BuscaAlunoViewModel
+
+@{
+    ViewData["Title"] = "Buscar Aluno";
+}
+
+<h1>Buscar Aluno</h1>
+
+<form asp-action="Buscar" method="post">
+    <input asp-for="TermoBusca" placeholder="Nome do aluno..." />
+    <button type="submit">Buscar</button>
+</form>
+
+@if (Model.Resultados.Any())
+{
+    <h2>Resultados da busca:</h2>
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Idade</th>
+        </tr>
+
+        @foreach (var aluno in Model.Resultados)
+        {
+            <tr>
+                <td>@aluno.Id</td>
+                <td>@aluno.Nome</td>
+                <td>@aluno.Email</td>
+                <td>@aluno.Idade</td>
+            </tr>
+        }
+    </table>
+}
+else if (!string.IsNullOrEmpty(Model.TermoBusca))
+{
+    <p>Nenhum aluno encontrado para: "@Model.TermoBusca"</p>
+}
